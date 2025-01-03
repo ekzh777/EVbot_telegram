@@ -94,8 +94,8 @@ def refresh_notification_queue(redis_client_arbi_db):
     keys = {key.split("arbitrage:")[1] for key in redis_keys}
     
     # Debug statement to check the keys fetched from Redis
-    #print(f"Fetched keys from Redis: {keys}")
-    #print(f"Queue keys: {queue_keys}")
+    print(f"Fetched keys from Redis: {keys}")
+    print(f"Queue keys: {queue_keys}")
 
     # Remove keys in the queue that no longer exist in Redis
     removed_keys = queue_keys - keys
