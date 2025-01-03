@@ -7,8 +7,8 @@ import json
 import redis
 
 # Redis connection
-redis_url_arbi_db = os.getenv("REDIS_Live_Arbi_DB_URL")
-redis_client_arbi_db = redis.StrictRedis.from_url(redis_url_arbi_db, decode_responses=True)
+redis_url_ev_db = os.getenv("REDIS_Live_EV_DB_URL")
+redis_client_ev_db = redis.StrictRedis.from_url(redis_url_ev_db, decode_responses=True)
 
 # Initialize the Telebot bot
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
