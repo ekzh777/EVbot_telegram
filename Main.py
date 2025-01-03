@@ -87,7 +87,7 @@ def refresh_notification_queue(redis_client_arbi_db):
     Refresh the notification queue with data from Redis, ensuring existing intervals are not affected.
     Remove bets that no longer exist in Redis.
     """
-    redis_keys = set(redis_client_arbi_db.keys("arbitrage:*"))
+    redis_keys = set(redis_client_arbi_db.keys("ev:*"))
     current_time = datetime.now()
     
     # Extract unique IDs from Redis keys
