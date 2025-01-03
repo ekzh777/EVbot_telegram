@@ -49,6 +49,13 @@ def format_notification_message(entry):
             normalised_gem_odds = json.loads(normalised_gem_odds)
         except (ValueError, TypeError):
             pass  # Keep as is if parsing fails
+
+        # Ensure spool_odds and normalised_gem_odds are lists
+        if not isinstance(spool_odds, list):
+            spool_odds = [spool_odds]
+        if not isinstance(normalised_gem_odds, list):
+            normalised_gem_odds = [normalised_gem_odds]
+
         current_match_time = entry.get('current_match_time', 'N/A')
         if current_match_time == 'HT':
             current_match_time = 'Half-Time'
