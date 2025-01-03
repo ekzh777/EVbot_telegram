@@ -187,6 +187,6 @@ def send_immediate_notification(entry):
 if __name__ == "__main__":
     print("Starting notification system...")
     while True:
-        refresh_notification_queue(redis_client_arbi_db)
+        refresh_notification_queue(redis_client_ev_db)
         process_notifications()
         time.sleep(2)
