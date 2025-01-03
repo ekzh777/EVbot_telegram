@@ -80,6 +80,7 @@ def format_notification_message(entry):
             f"<b>{entry.get('spool_game')}</b>\n"
             f"<b>Live Match Time:</b> {formatted_time}\n"
             f"<b>Bet Market:</b> {entry.get('market')}\n"
+            f"<b>Outcome:</b> {entry.get('outcome')}\n"
             f"<b>Spool Odds: {formatted_spool_odds}</b>\n"
             f"<b>Normalised Gem Odds: {formatted_normalised_gem_odds}</b>\n"
             f"{entry.get('spool_link')}\n"
