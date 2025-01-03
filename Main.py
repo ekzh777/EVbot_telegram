@@ -17,7 +17,7 @@ telegram_bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
 # Priority Queue for Notifications
 notification_queue = []
-arbitrage_values = {}  # Cache to track arbitrage states
+ev_values = {}  # Cache to track arbitrage states
 queue_keys = set()  # Track currently queued keys to prevent duplication
 
 def calculate_notification_interval(ev_percent):
@@ -82,16 +82,16 @@ def format_notification_message(entry):
         print(f"Error formatting message: {e}")
         return "Error formatting message."
     
-def refresh_notification_queue(redis_client_arbi_db):
+def refresh_notification_queue(redis_client_ev_db):
     """
     Refresh the notification queue with data from Redis, ensuring existing intervals are not affected.
     Remove bets that no longer exist in Redis.
     """
-    redis_keys = set(redis_client_arbi_db.keys("ev:*"))
+    redis_keys = set(redis_client_ev_db.keys("ev:*"))
     current_time = datetime.now()
     
     # Extract unique IDs from Redis keys
-    keys = {key.split("arbitrage:")[1] for key in redis_keys}
+    keys = {key.split("ev:")[1] for key in redis_keys}
     
     # Debug statement to check the keys fetched from Redis
     print(f"Fetched keys from Redis: {keys}")
@@ -107,7 +107,7 @@ def refresh_notification_queue(redis_client_arbi_db):
             print(f"Removed outdated key from queue: {removed_key}")
 
     for key in redis_keys:
-        entry = redis_client_arbi_db.hgetall(key)
+        entry = redis_client_ev_db.hgetall(key)
         if not entry:
             continue
 
@@ -117,10 +117,10 @@ def refresh_notification_queue(redis_client_arbi_db):
         unique_id = f" {match} {market} {str(ev_percent)}"
 
         # Check if the arbitrage is new or updated
-        if unique_id not in arbitrage_values or arbitrage_values[unique_id] != ev_percent:
+        if unique_id not in ev_values or ev_values[unique_id] != ev_percent:
             # Send immediate notification
             send_immediate_notification(entry)
-            arbitrage_values[unique_id] = ev_percent  # Update the stored value
+            ev_values[unique_id] = ev_percent  # Update the stored value
 
             # Remove any existing entry with the same unique_id from the queue
             notification_queue[:] = [item for item in notification_queue if item[1] != unique_id]
@@ -159,8 +159,8 @@ def process_notifications():
                 print(f"Failed to send notification for unique_id {unique_id}: {e}")
 
             # Recalculate next notification time and re-add to the queue
-            arbitrage_value = float(entry.get("arbitrage_percentage", 0))
-            interval = calculate_notification_interval(arbitrage_value)
+            ev_percent = float(entry.get("ev_percent", 0))
+            interval = calculate_notification_interval(ev_percent)
             if interval is not None:
                 next_notification_time = datetime.now() + timedelta(seconds=interval)
                 heapq.heappush(notification_queue, (next_notification_time, unique_id, entry))
