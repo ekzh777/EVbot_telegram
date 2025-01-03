@@ -29,7 +29,7 @@ def calculate_notification_interval(ev_percent):
         return 10  # Every 10 seconds
     elif ev_percent >= 5:
         return 30  # Every 30 seconds
-    elif ev_percent >= -3:
+    elif ev_percent >= 0:
         return 60  # Every 60 seconds
     else:
         return None  # Do not notify
