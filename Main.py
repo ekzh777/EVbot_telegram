@@ -58,7 +58,7 @@ def format_notification_message(entry):
 
         current_match_time = entry.get('current_match_time', 'N/A')
         if current_match_time == 'HT':
-            current_match_time = 'Half-Time'
+            current_match_time = 'Half-Time '
             formatted_time = current_match_time
 
         elif current_match_time != 'N/A':          
@@ -76,7 +76,7 @@ def format_notification_message(entry):
 
         # Construct the message
         return (
-            f"<b>{current_match_time}LIVE {float(entry.get('ev_percent', 0)):.2f}%</b> | {current_time_gmt8}\n"
+            f"<b>{current_match_time}EV {float(entry.get('ev_percent', 0)):.2f}%</b> | {current_time_gmt8}\n"
             f"<b>{entry.get('spool_game')}</b>\n"
             f"<b>Live Match Time:</b> {formatted_time}\n"
             f"<b>Bet Market:</b> {entry.get('market')}\n"
