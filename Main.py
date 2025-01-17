@@ -25,11 +25,11 @@ def calculate_notification_interval(ev_percent):
     Calculate the time interval for the next notification based on arbitrage value.
     Higher arbitrage values get shorter intervals.
     """
-    if ev_percent >= 12:
+    if ev_percent >= 13:
         return 10  # Every 10 seconds
-    elif ev_percent >= 8:
+    elif ev_percent >= 9:
         return 30  # Every 30 seconds
-    elif ev_percent >= 4:
+    elif ev_percent >= 5:
         return 60  # Every 60 seconds
     else:
         return None  # Do not notify
